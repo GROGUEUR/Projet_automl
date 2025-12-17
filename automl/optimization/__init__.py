@@ -1,7 +1,8 @@
 """
 Module d'optimisation des hyperparamètres pour AutoML.
-(À implémenter par Personne 3)
 """
-# Placeholder pour l'intégration future
-# from .optimizer import optimize_hyperparameters
-# __all__ = ['optimize_hyperparameters']
+from .hyperparameter_space import HyperparameterSpace
+from .hyperparameter_tuner import HyperparameterTuner
+from .optimization_pipeline import OptimizationPipeline
+
+__all__ = ['HyperparameterSpace', 'HyperparameterTuner', 'OptimizationPipeline']
