@@ -10,7 +10,7 @@ import numpy as np
 from .data.loader import DataLoader
 from .data.preprocessing import DataPreprocessor, train_valid_test_split
 from .utils.config import Config
-
+from .evaluation import ModelEvaluator, ResultsVisualizer
 
 # ========== Variables globales pour stocker l'état ==========
 _data_loader: Optional[DataLoader] = None
@@ -23,7 +23,7 @@ _y_valid: Optional[np.ndarray] = None
 _y_test: Optional[np.ndarray] = None
 _task_type: Optional[str] = None
 _trained_models: Dict[str, Any] = {}  # Sera utilisé par Personne 2
-
+_evaluator = None
 
 def fit(data_path: str, **kwargs) -> bool:
     """
@@ -205,67 +205,65 @@ def fit(data_path: str, **kwargs) -> bool:
 
 def eval(**kwargs) -> Dict[str, Any]:
     """
-    Évalue les modèles entraînés sur l'ensemble de test.
-
-    Cette fonction appelle le module d'évaluation (Personne 4) pour
-    calculer les métriques de performance sur l'ensemble de test.
-
-    Args:
-        **kwargs: Arguments supplémentaires pour l'évaluation:
-            - verbose (bool): Afficher les résultats (défaut: True)
-            - save_results (bool): Sauvegarder les résultats (défaut: True)
-
-    Returns:
-        Dict[str, Any]: Dictionnaire contenant les résultats d'évaluation
-
-    Raises:
-        RuntimeError: Si fit() n'a pas été appelé avant eval()
-
-    Example:
-        >>> import automl
-        >>> automl.fit(data_path="/path/to/data")
-        >>> results = automl.eval()
+    Évalue tous les modèles entraînés sur les données de test.
+    Point d'entrée principal pour l'évaluation.
     """
-    global _X_test, _y_test, _task_type, _trained_models
-
-    # Vérifier que fit() a été appelé
-    if _X_test is None or _y_test is None:
-        raise RuntimeError(
-            "Les données de test ne sont pas disponibles. "
-            "Appelez d'abord fit() pour charger et préparer les données."
-        )
-
-    if len(_trained_models) == 0:
-        print("⚠  Aucun modèle entraîné à évaluer.")
-        print("   Le module 'models' doit être implémenté par Personne 2.")
+    # On récupère les variables globales nécessaires
+    global _evaluator, _model_trainer
+    
+    # 1. Vérification : A-t-on des modèles ?
+    if _model_trainer is None or not _model_trainer.trained_models:
+        print("⚠ Aucun modèle entraîné. Appelez fit() d'abord.")
         return {}
-
-    verbose = kwargs.get('verbose', Config.VERBOSE)
-
-    if verbose:
-        print("=" * 60)
-        print("ÉVALUATION DES MODÈLES")
-        print("=" * 60)
-        print()
-
+    
+    # 2. Récupérer les données via la fonction helper (ou globales si get_data n'existe pas)
     try:
-        # Import du module evaluation (sera créé par Personne 4)
-        from .evaluation import evaluate_models
+        # Si get_data est défini dans core.py
+        data = get_data() 
+        X_test = data['X_test']
+        y_test = data['y_test']
+        X_valid = data.get('X_valid')
+        y_valid = data.get('y_valid')
+        task_type = data['task_type']
+    except NameError:
+        # Fallback si get_data n'existe pas encore (utilise tes globales actuelles)
+        global _X_test, _y_test, _task_type
+        X_test = _X_test
+        y_test = _y_test
+        task_type = _task_type
 
-        results = evaluate_models(
-            _trained_models,
-            _X_test, _y_test,
-            _task_type,
-            **kwargs
-        )
+    # 3. Créer l'évaluateur 
+    verbose = kwargs.get('verbose', True)
+    _evaluator = ModelEvaluator(verbose=verbose)
+    
+    # 4. Lancer l'évaluation sur tous les modèles [cite: 70]
+    print(f"🚀 Lancement de l'évaluation sur {len(_model_trainer.trained_models)} modèles...")
+    results = _evaluator.evaluate_all(
+        _model_trainer.trained_models,
+        X_test, y_test,
+        X_valid, y_valid
+    )
+    
+    # 5. Afficher le tableau comparatif [cite: 70]
+    print("\n" + "="*70)
+    print("📊 TABLEAU COMPARATIF DES PERFORMANCES")
+    print("="*70)
+    comparison = _evaluator.get_comparison_table('test')
+    print(comparison.to_string())
+    
+    # 6. Générer les visualisations si demandé 
+    if kwargs.get('plot', False):
+        try:
+            visualizer = ResultsVisualizer()
+            visualizer.plot_model_comparison(comparison, task_type)
+        except Exception as e:
+            print(f"Erreur lors de la visualisation : {e}")
+    
+    return results
 
-        return results
-
-    except ImportError:
-        if verbose:
-            print("⚠  Module 'evaluation' non disponible (sera implémenté par Personne 4)")
-            print("   Les données de test sont prêtes pour l'évaluation!")
-        return {}
+def get_evaluator():
+    """Retourne l'instance de l'évaluateur."""
+    return _evaluator
 
 
 def get_data() -> Dict[str, Any]:
