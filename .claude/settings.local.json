@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /Users/bastiendelamare/Documents/Cours\\ M1/autoML/Projet_automl && python -m pytest:*)",
+      "Bash(pip install pytest scikit-learn pandas joblib -q)",
+      "Bash(cd /Users/bastiendelamare/Documents/Cours\\ M1/autoML/Projet_automl && python example_models.py:*)",
+      "Bash(cd:*)",
+      "Bash(cd /Users/bastiendelamare/Documents/Cours\\ M1/autoML/Projet_automl && python test_integration_models.py:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}
