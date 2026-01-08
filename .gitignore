@@ -53,5 +53,4 @@ results/
 
 # Données locales (ne pas commit les données)
 *.csv
-*.txt
 *.dat
