@@ -19,7 +19,7 @@ if [ -d "venv" ]; then
 elif [ -d "~/automl_env" ]; then
     source ~/automl_env/bin/activate
 else
-    echo "❌ Pas d'environnement virtuel trouvé !"
+    echo "Pas d'environnement virtuel trouvé !"
     exit 1
 fi
 
@@ -37,4 +37,4 @@ python scripts/optimize_hyperparameters.py \
     --cv 5 \
     --output results/opti_results_${SLURM_JOB_ID}.pkl
 
-echo "✅ Fin du job"
+echo "Fin du job"
