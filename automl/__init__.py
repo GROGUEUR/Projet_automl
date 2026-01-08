@@ -10,6 +10,7 @@ Usage:
     >>> automl.eval()
 """
 from .core import fit, eval, get_data, reset
+from .models import get_trained_models, get_best_model
 
 __version__ = '0.1.0'
-__all__ = ['fit', 'eval', 'get_data', 'reset']
+__all__ = ['fit', 'eval', 'get_data', 'reset', 'get_trained_models', 'get_best_model']
