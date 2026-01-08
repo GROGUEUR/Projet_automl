@@ -26,9 +26,9 @@ def main():
     args = parser.parse_args()
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     
-    print(f"🚀 Lancement Optimisation : {args.search_method.upper()}")
+    print(f"Lancement Optimisation : {args.search_method.upper()}")
     
-    # 1. Pipeline complet initial (Personne 1 & 2)
+    # 1. Pipeline complet initial
     print("--- Chargement & Entraînement Initial ---")
     fit(args.data_path, verbose=True)
     
@@ -37,7 +37,7 @@ def main():
     models_dict = trainer.trained_models
     data = get_data()
     
-    # 3. Tuning (Personne 3 - C'est toi !)
+    # 3. Tuning
     tuner = HyperparameterTuner(
         search_method=args.search_method,
         n_iter=args.n_iter,
@@ -56,7 +56,7 @@ def main():
     
     # 4. Sauvegarde & Rapport
     tuner.save_results(args.output)
-    print("\n📊 TABLEAU FINAL :")
+    print("\nTABLEAU FINAL :")
     print(pipeline.get_comparison(models_dict, optimized_models))
 
 if __name__ == '__main__':

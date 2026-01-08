@@ -6,8 +6,6 @@ Ce module fournit toutes les fonctionnalités nécessaires pour :
 - Entraîner et comparer plusieurs modèles
 - Sélectionner le meilleur modèle selon différents critères
 - Sauvegarder et charger les modèles
-
-Implémenté par Personne 2.
 """
 from .base_model import BaseModel
 from .model_factory import ModelFactory
@@ -61,7 +59,7 @@ def train_models(X_train, y_train, X_valid, y_valid, task_type, **kwargs):
         best_model = _model_trainer.select_best_model(metric='valid_score')
 
         if verbose:
-            print("\n📊 Résumé des performances:")
+            print("\nRésumé des performances:")
             summary = _model_trainer.get_results_summary()
             print(summary.to_string(index=False))
             print()

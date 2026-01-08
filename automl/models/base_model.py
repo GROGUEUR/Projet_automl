@@ -174,7 +174,7 @@ class BaseModel:
 
     def set_params(self, **params):
         """
-        Modifie les hyperparamètres (utilisé par Personne 3).
+        Modifie les hyperparamètres.
 
         Args:
             **params: nouveaux hyperparamètres

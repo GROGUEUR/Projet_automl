@@ -1,18 +1,38 @@
 # Dépendances principales pour AutoML
-# Version fixées pour reproductibilité
+# Versions fixées pour reproductibilité
+
+# ==========================================
+# DÉPENDANCES OBLIGATOIRES
+# ==========================================
 
 # Manipulation de données
-numpy==1.24.3
-pandas==2.0.3
+numpy>=1.24.3,<2.0.0
+pandas>=2.0.3,<3.0.0
 
 # Machine Learning
-scikit-learn==1.3.0
+scikit-learn>=1.3.0,<2.0.0
 
-# Utilitaires
-joblib==1.3.2
+# Sérialisation de modèles
+joblib>=1.3.2,<2.0.0
 
-# Développement et tests (optionnel)
-pytest==7.4.0
-pytest-cov==4.1.0
-flake8==6.0.0
-black==23.7.0
+# Visualisation (utilisé par le module evaluation)
+matplotlib>=3.7.0,<4.0.0
+seaborn>=0.12.0,<1.0.0
+
+# ==========================================
+# DÉPENDANCES OPTIONNELLES (développement)
+# ==========================================
+
+# Tests
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Qualité de code
+flake8>=6.0.0
+black>=23.7.0
+
+# Documentation (optionnel)
+# sphinx>=7.0.0
+# sphinx-rtd-theme>=1.3.0
+
+

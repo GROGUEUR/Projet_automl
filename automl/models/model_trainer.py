@@ -76,14 +76,14 @@ class ModelTrainer:
                 self.results.append(result)
 
                 if self.verbose:
-                    print(f"✓ Score train: {model.train_score:.4f}")
+                    print(f"Score train: {model.train_score:.4f}")
                     if model.valid_score is not None:
-                        print(f"✓ Score valid: {model.valid_score:.4f}")
-                    print(f"✓ Temps: {training_time:.2f}s")
+                        print(f"Score valid: {model.valid_score:.4f}")
+                    print(f"Temps: {training_time:.2f}s")
 
             except Exception as e:
                 if self.verbose:
-                    print(f"✗ Erreur lors de l'entraînement de {model.name}: {e}")
+                    print(f"Erreur lors de l'entraînement de {model.name}: {e}")
                 continue
 
         return self.results
@@ -118,7 +118,7 @@ class ModelTrainer:
 
         if self.verbose:
             print(f"\n{'='*60}")
-            print(f"🏆 Meilleur modèle: {self.best_model.name}")
+            print(f"Meilleur modèle: {self.best_model.name}")
             print(f"   Score validation: {best_result['valid_score']:.4f}")
             print(f"{'='*60}\n")
 
@@ -164,7 +164,7 @@ class ModelTrainer:
                 saved_paths.append(path)
             except Exception as e:
                 if self.verbose:
-                    print(f"⚠ Erreur lors de la sauvegarde de {name}: {e}")
+                    print(f"Erreur lors de la sauvegarde de {name}: {e}")
 
         if self.verbose:
             print(f"✓ {len(saved_paths)} modèles sauvegardés dans {save_dir}")
@@ -190,7 +190,7 @@ class ModelTrainer:
         path = self.best_model.save(save_dir)
 
         if self.verbose:
-            print(f"✓ Meilleur modèle sauvegardé: {path}")
+            print(f"Meilleur modèle sauvegardé: {path}")
 
         return path
 
