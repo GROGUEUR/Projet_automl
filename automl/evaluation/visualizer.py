@@ -57,7 +57,7 @@ class ResultsVisualizer:
         
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
-            print(f"✓ Graphique sauvegardé: {save_path}")
+            print(f"Graphique sauvegardé: {save_path}")
         
         plt.show()
     
@@ -80,7 +80,7 @@ class ResultsVisualizer:
         
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
-            print(f"✓ Matrice de confusion sauvegardée: {save_path}")
+            print(f"Matrice de confusion sauvegardée: {save_path}")
         
         plt.show()
     
@@ -105,7 +105,7 @@ class ResultsVisualizer:
         
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
-            print(f"✓ Courbe ROC sauvegardée: {save_path}")
+            print(f"Courbe ROC sauvegardée: {save_path}")
         
         plt.show()
     
@@ -139,7 +139,7 @@ class ResultsVisualizer:
         
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
-            print(f"✓ Graphique des résidus sauvegardé: {save_path}")
+            print(f"Graphique des résidus sauvegardé: {save_path}")
         
         plt.show()
     
@@ -169,6 +169,6 @@ class ResultsVisualizer:
         
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
-            print(f"✓ Graphique sauvegardé: {save_path}")
+            print(f"Graphique sauvegardé: {save_path}")
         
         plt.show()

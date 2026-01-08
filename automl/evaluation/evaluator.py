@@ -60,7 +60,7 @@ class ModelEvaluator:
         
         if self.verbose:
             print(f"\n{'='*60}")
-            print(f"📊 Évaluation de {model.name} sur {dataset_name}")
+            print(f"Évaluation de {model.name} sur {dataset_name}")
             print(f"{'='*60}")
             self._print_metrics(metrics, model.task_type)
         
@@ -94,7 +94,7 @@ class ModelEvaluator:
                 
             except Exception as e:
                 if self.verbose:
-                    print(f"✗ Erreur lors de l'évaluation de {name}: {e}")
+                    print(f"Erreur lors de l'évaluation de {name}: {e}")
                 continue
         
         self.results.update(all_results)
@@ -158,4 +158,4 @@ class ModelEvaluator:
         import joblib
         joblib.dump(self.results, filepath)
         if self.verbose:
-            print(f"✓ Résultats sauvegardés: {filepath}")
+            print(f"Résultats sauvegardés: {filepath}")
