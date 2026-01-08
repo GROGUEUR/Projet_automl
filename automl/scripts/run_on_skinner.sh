@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=16GB
+#SBATCH --mem=50GB
 #SBATCH --time=12:00:00
 
 
@@ -16,8 +16,8 @@ mkdir -p logs results
 echo "Début du job sur le noeud : $(hostname)"
 echo "Date : $(date)"
 
-python automl/scripts/optimize_hyperparameters.py \
-    --data-path /info/corpus/ChallengeMachineLearning \
+python optimize_hyperparameters.py \
+    --data-path /info/corpus/ChallengeMachineLearning/data_C \
     --search-method random \
     --n-iter 50 \
     --cv 5 \

@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/info/etu/m1/s2500408/AUTOMLCHALLENGE/Projet_automl/automl/scripts/optimize_hyperparameters.py", line 15, in <module>
+    from automl.optimization import HyperparameterTuner, OptimizationPipeline
+  File "/info/etu/m1/s2500408/AUTOMLCHALLENGE/Projet_automl/automl/optimization/__init__.py", line 5, in <module>
+    from .hyperparameter_tuner import HyperparameterTuner
+ModuleNotFoundError: No module named 'automl.optimization.hyperparameter_tuner'
