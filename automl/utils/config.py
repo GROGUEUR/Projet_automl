@@ -45,7 +45,7 @@ class Config:
     ENCODE_CATEGORICAL = True
 
     # ========== MODÈLES ==========
-    # Liste des modèles à entraîner (sera utilisé par Personne 2)
+    # Liste des modèles à entraîner
     # Options possibles: 'logistic_regression', 'random_forest', 'svm',
     #                   'gradient_boosting', 'knn', 'decision_tree'
     MODELS_TO_TRAIN = [
