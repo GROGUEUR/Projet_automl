@@ -8,25 +8,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="automl",
-    version="0.1.0",
-    author="Équipe AutoML M1 Info IA",
-    author_email="",
+    version="1.0.0",
+    author="Comte Quentin, Lepine Francois, Floch Samuel, Delamare Bastien",
     description="Système AutoML pour l'entraînement et l'évaluation automatique de modèles ML",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/votre-repo/automl",
+    url="https://github.com/GROGUEUR/Projet_automl.git",
     packages=find_packages(),
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Science/Research",
-        "Topic :: Scientific/Engineering :: Artificial Intelligence",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-    ],
     python_requires=">=3.8",
     install_requires=[
         "numpy>=1.24.3,<2.0.0",
