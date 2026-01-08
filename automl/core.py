@@ -207,58 +207,78 @@ def eval(**kwargs) -> Dict[str, Any]:
     """
     Évalue tous les modèles entraînés sur les données de test.
     Point d'entrée principal pour l'évaluation.
+
+    Args:
+        **kwargs: Arguments optionnels:
+            - verbose (bool): Afficher les détails (défaut: True)
+            - plot (bool): Générer des visualisations (défaut: False)
+
+    Returns:
+        Dict[str, Any]: Résultats d'évaluation pour tous les modèles
+
+    Example:
+        >>> import automl
+        >>> automl.fit(data_path="/path/to/data")
+        >>> results = automl.eval(verbose=True, plot=False)
     """
-    # On récupère les variables globales nécessaires
-    global _evaluator, _model_trainer
-    
+    global _evaluator, _trained_models, _X_test, _y_test, _X_valid, _y_valid, _task_type
+
     # 1. Vérification : A-t-on des modèles ?
-    if _model_trainer is None or not _model_trainer.trained_models:
+    if not _trained_models:
         print("⚠ Aucun modèle entraîné. Appelez fit() d'abord.")
         return {}
-    
-    # 2. Récupérer les données via la fonction helper (ou globales si get_data n'existe pas)
-    try:
-        # Si get_data est défini dans core.py
-        data = get_data() 
-        X_test = data['X_test']
-        y_test = data['y_test']
-        X_valid = data.get('X_valid')
-        y_valid = data.get('y_valid')
-        task_type = data['task_type']
-    except NameError:
-        # Fallback si get_data n'existe pas encore (utilise tes globales actuelles)
-        global _X_test, _y_test, _task_type
-        X_test = _X_test
-        y_test = _y_test
-        task_type = _task_type
 
-    # 3. Créer l'évaluateur 
+    # 2. Vérification : A-t-on des données de test ?
+    if _X_test is None or _y_test is None:
+        print("⚠ Aucune donnée de test disponible. Appelez fit() d'abord.")
+        return {}
+
+    # 3. Créer l'évaluateur
     verbose = kwargs.get('verbose', True)
     _evaluator = ModelEvaluator(verbose=verbose)
-    
-    # 4. Lancer l'évaluation sur tous les modèles [cite: 70]
-    print(f"🚀 Lancement de l'évaluation sur {len(_model_trainer.trained_models)} modèles...")
+
+    if verbose:
+        print("=" * 70)
+        print("ÉVALUATION DES MODÈLES")
+        print("=" * 70)
+        print()
+
+    # 4. Lancer l'évaluation sur tous les modèles
+    if verbose:
+        print(f"🚀 Évaluation de {len(_trained_models)} modèle(s) sur l'ensemble de test...")
+        print()
+
     results = _evaluator.evaluate_all(
-        _model_trainer.trained_models,
-        X_test, y_test,
-        X_valid, y_valid
+        _trained_models,
+        _X_test, _y_test,
+        _X_valid, _y_valid
     )
-    
-    # 5. Afficher le tableau comparatif [cite: 70]
-    print("\n" + "="*70)
-    print("📊 TABLEAU COMPARATIF DES PERFORMANCES")
-    print("="*70)
-    comparison = _evaluator.get_comparison_table('test')
-    print(comparison.to_string())
-    
-    # 6. Générer les visualisations si demandé 
+
+    # 5. Afficher le tableau comparatif
+    if verbose:
+        print()
+        print("=" * 70)
+        print("📊 TABLEAU COMPARATIF DES PERFORMANCES")
+        print("=" * 70)
+        comparison = _evaluator.get_comparison_table('test')
+        if not comparison.empty:
+            print(comparison.to_string(index=False))
+        else:
+            print("Aucun résultat à afficher")
+        print()
+
+    # 6. Générer les visualisations si demandé
     if kwargs.get('plot', False):
         try:
             visualizer = ResultsVisualizer()
-            visualizer.plot_model_comparison(comparison, task_type)
+            comparison = _evaluator.get_comparison_table('test')
+            visualizer.plot_model_comparison(comparison, _task_type)
+            if verbose:
+                print("✓ Visualisations générées")
         except Exception as e:
-            print(f"Erreur lors de la visualisation : {e}")
-    
+            if verbose:
+                print(f"⚠ Erreur lors de la visualisation : {e}")
+
     return results
 
 def get_evaluator():
@@ -304,7 +324,7 @@ def reset() -> None:
     Utile pour nettoyer la mémoire ou recommencer avec de nouvelles données.
     """
     global _data_loader, _preprocessor, _X_train, _X_valid, _X_test
-    global _y_train, _y_valid, _y_test, _task_type, _trained_models
+    global _y_train, _y_valid, _y_test, _task_type, _trained_models, _evaluator
 
     _data_loader = None
     _preprocessor = None
@@ -316,5 +336,6 @@ def reset() -> None:
     _y_test = None
     _task_type = None
     _trained_models = {}
+    _evaluator = None
 
     print("✓ État du système réinitialisé")
