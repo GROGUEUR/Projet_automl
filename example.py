@@ -19,12 +19,6 @@ def main():
     print("=" * 70)
     print()
 
-    # Créer un dataset d'exemple
-    print("Création d'un dataset d'exemple...")
-    data_path = create_sample_dataset()
-    print(f"Dataset créé: {data_path}")
-    print()
-
     # Importer AutoML
     print("Import du module AutoML...")
     import automl
@@ -38,7 +32,7 @@ def main():
     print()
 
     print("Appel de automl.fit()...")
-    automl.fit(data_path=data_path, verbose=True)
+    automl.fit(data_path='/info/corpus/ChallengeMachineLearning/data_A', verbose=True)
     print()
 
     # Accéder aux données
@@ -77,13 +71,6 @@ def main():
 
     # Réinitialiser l'état
     automl.reset()
-
-    # Nettoyer
-    print("=" * 70)
-    print("Nettoyage...")
-    os.unlink(data_path)
-    print(f"Fichier temporaire supprimé: {data_path}")
-    print()
 
     print("=" * 70)
     print("DÉMONSTRATION TERMINÉE AVEC SUCCÈS!")
