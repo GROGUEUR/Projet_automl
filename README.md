@@ -5,6 +5,7 @@ Projet M1 Informatique IA - Pipeline automatisé d'entraînement et d'évaluatio
 ## Description
 
 AutoML est un système complet qui automatise le processus d'apprentissage automatique de bout en bout :
+
 - Chargement et préparation des données (multi-formats)
 - Détection automatique du type de tâche (classification/régression)
 - Prétraitement intelligent (valeurs manquantes, normalisation, encodage)
@@ -14,6 +15,7 @@ AutoML est un système complet qui automatise le processus d'apprentissage autom
 - Évaluation complète avec métriques et visualisations
 
 **Caractéristiques principales:**
+
 - Interface simple : 2 lignes de code suffisent (`fit` + `eval`)
 - 7 modèles de classification et 6 de régression
 - Espaces d'hyperparamètres prédéfinis
@@ -44,11 +46,13 @@ pip install -r requirements.txt
 Le système accepte plusieurs formats :
 
 **Formats de fichiers:**
+
 - CSV (`.csv`) avec séparateur automatique (`,`, `;`, `\t`, espace)
 - Fichiers texte (`.txt`)
 - Format ChallengeMachineLearning (`.data` + `.solution`)
 
 **Structure attendue:**
+
 - Dernière colonne = variable cible (y)
 - Autres colonnes = features (X)
 - En-têtes optionnels
@@ -133,7 +137,6 @@ Projet_automl/
 │   └── utils/                      # Utilitaires
 │       ├── __init__.py
 │       └── config.py               # Configuration globale
-├── tests/                          # Tests unitaires
 ├── setup.py                        # Configuration d'installation
 ├── requirements.txt                # Dépendances
 ├── example.py                      # Script d'exemple
@@ -147,12 +150,14 @@ Projet_automl/
 **Responsable:** Chargement, prétraitement et organisation des données
 
 **Fichiers:**
+
 - [automl/data/loader.py](automl/data/loader.py) - Classe `DataLoader`
 - [automl/data/preprocessing.py](automl/data/preprocessing.py) - Classe `DataPreprocessor`
 - [automl/utils/config.py](automl/utils/config.py) - Configuration globale
 - [automl/core.py](automl/core.py) - Interface principale
 
 **Fonctionnalités:**
+
 - Chargement automatique de fichiers CSV, TXT, .data/.solution
 - Détection automatique du séparateur
 - Support du format ChallengeMachineLearning (fichier.data + fichier.solution)
@@ -207,12 +212,14 @@ X_train = splits['X_train']
 **Responsable:** Entraînement et sélection de multiples modèles
 
 **Fichiers:**
+
 - [automl/models/base_model.py](automl/models/base_model.py) - Classe `BaseModel`
 - [automl/models/model_factory.py](automl/models/model_factory.py) - Classe `ModelFactory`
 - [automl/models/model_trainer.py](automl/models/model_trainer.py) - Classe `ModelTrainer`
 - [automl/models/model_selector.py](automl/models/model_selector.py) - Classe `ModelSelector`
 
 **Fonctionnalités:**
+
 - Wrapper unifié pour modèles sklearn (BaseModel)
 - Factory pour créer des modèles par type de tâche
 - Entraînement parallèle ou séquentiel de plusieurs modèles
@@ -222,10 +229,12 @@ X_train = splits['X_train']
 **Modèles supportés:**
 
 **Classification (7):**
+
 - RandomForest, GradientBoosting, LogisticRegression
 - SVM, KNN, DecisionTree, NaiveBayes
 
 **Régression (6):**
+
 - RandomForest, GradientBoosting, Ridge
 - SVR, KNN, DecisionTree
 
@@ -264,11 +273,13 @@ top_models = selector.select_top_k(k=3)
 **Responsable:** Optimisation des hyperparamètres des modèles
 
 **Fichiers:**
+
 - [automl/optimization/hyperparameter_space.py](automl/optimization/hyperparameter_space.py) - Classe `HyperparameterSpace`
 - [automl/optimization/hyparparameter_tuner.py](automl/optimization/hyparparameter_tuner.py) - Classe `HyperparameterTuner`
 - [automl/optimization/optimization_pipeline.py](automl/optimization/optimization_pipeline.py) - Classe `OptimizationPipeline`
 
 **Fonctionnalités:**
+
 - Espaces de paramètres prédéfinis pour tous les modèles
 - Grid Search et Random Search
 - Validation croisée configurable
@@ -291,11 +302,13 @@ best_params = tuner.optimize(
 **Responsable:** Évaluation et visualisation des performances
 
 **Fichiers:**
+
 - [automl/evaluation/evaluator.py](automl/evaluation/evaluator.py) - Classe `ModelEvaluator`
 - [automl/evaluation/metrics.py](automl/evaluation/metrics.py) - Classe `MetricsCalculator`
 - [automl/evaluation/visualizer.py](automl/evaluation/visualizer.py) - Classe `ResultsVisualizer`
 
 **Fonctionnalités:**
+
 - Évaluation simple ou multiple de modèles
 - Calcul de métriques complètes par type de tâche
 - Matrices de confusion et rapports de classification
@@ -304,9 +317,11 @@ best_params = tuner.optimize(
 **Métriques:**
 
 **Classification:**
+
 - Accuracy, Precision, Recall, F1-score, ROC-AUC
 
 **Régression:**
+
 - R², RMSE, MAE, MAPE, Max Error
 
 **API ModelEvaluator:**
@@ -358,6 +373,7 @@ Config.RANDOM_STATE = 123
 ```
 
 **Paramètres disponibles:**
+
 - `DATA_PATH` : Chemin vers les données
 - `SAVE_DIR` : Répertoire de sauvegarde des modèles
 - `TRAIN_SIZE`, `VALID_SIZE`, `TEST_SIZE` : Proportions des splits (défaut: 0.7, 0.15, 0.15)
@@ -375,10 +391,12 @@ Config.RANDOM_STATE = 123
 Le système détecte automatiquement s'il s'agit de classification ou régression :
 
 **Classification :**
+
 - Type object/string dans la cible
 - Moins de 20 valeurs uniques ET < 5% du total
 
 **Régression :**
+
 - Type numérique avec beaucoup de valeurs différentes
 
 ## Gestion des Valeurs Manquantes
@@ -436,6 +454,7 @@ y_test = data['y_test']
 ## Reproductibilité
 
 Le système garantit la reproductibilité via :
+
 - Graine aléatoire fixe (`RANDOM_STATE = 42`)
 - Versions fixes des dépendances (requirements.txt)
 - Sauvegarde des preprocessors et modèles
@@ -443,6 +462,7 @@ Le système garantit la reproductibilité via :
 ## Dépendances
 
 **Dépendances principales:**
+
 - **numpy** >= 1.24.3 : Calcul numérique
 - **pandas** >= 2.0.3 : Manipulation de données
 - **scikit-learn** >= 1.3.0 : Algorithmes ML
@@ -451,6 +471,7 @@ Le système garantit la reproductibilité via :
 - **seaborn** >= 0.12.0 : Graphiques statistiques
 
 **Dépendances de développement:**
+
 - **pytest** >= 7.4.0 : Tests unitaires
 - **pytest-cov** >= 4.1.0 : Couverture de code
 - **flake8** >= 6.0.0 : Linting
