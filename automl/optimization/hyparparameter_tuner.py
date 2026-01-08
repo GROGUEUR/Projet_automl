@@ -36,7 +36,7 @@ class HyperparameterTuner:
         
         if not param_space:
             if self.verbose:
-                print(f"⚠️  Pas d'espace de recherche défini pour {model.name}")
+                print(f"Pas d'espace de recherche défini pour {model.name}")
             return model.get_params()
         
         # Définir le scorer selon le type de tâche
@@ -73,7 +73,7 @@ class HyperparameterTuner:
             raise ValueError(f"Méthode de recherche inconnue: {self.search_method}")
         
         if self.verbose:
-            print(f"\n🔍 Optimisation de {model.name} avec {self.search_method}Search...")
+            print(f"\nOptimisation de {model.name} avec {self.search_method}Search...")
         
         # Lancer la recherche
         start_time = time.time()

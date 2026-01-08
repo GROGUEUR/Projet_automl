@@ -16,7 +16,7 @@ class OptimizationPipeline:
             use_reduced_space=False):
         if self.verbose:
             print("\n" + "="*70)
-            print("🚀 DÉBUT DE L'OPTIMISATION DES HYPERPARAMÈTRES")
+            print("DÉBUT DE L'OPTIMISATION DES HYPERPARAMÈTRES")
             print("="*70)
         
         # 1. Optimiser les hyperparamètres
@@ -30,7 +30,7 @@ class OptimizationPipeline:
         # 2. Ré-entraîner avec les meilleurs paramètres
         if self.verbose:
             print("\n" + "="*70)
-            print("🔄 RÉ-ENTRAÎNEMENT AVEC HYPERPARAMÈTRES OPTIMISÉS")
+            print("RÉ-ENTRAÎNEMENT AVEC HYPERPARAMÈTRES OPTIMISÉS")
             print("="*70)
         
         for name, model in models_dict.items():
@@ -39,7 +39,7 @@ class OptimizationPipeline:
             
             try:
                 if self.verbose:
-                    print(f"\n📊 Ré-entraînement de {name}...")
+                    print(f"\nRé-entraînement de {name}...")
                 
                 # Créer une copie du modèle avec les nouveaux params
                 # On suppose que model.model est l'estimateur sklearn
@@ -62,11 +62,11 @@ class OptimizationPipeline:
                     improvement = 0
                     if model.valid_score is not None:
                         improvement = optimized_model.valid_score - model.valid_score
-                    print(f"✓ Score validation: {optimized_model.valid_score:.4f} (Amélioration: {improvement:+.4f})")
+                    print(f"Score validation: {optimized_model.valid_score:.4f} (Amélioration: {improvement:+.4f})")
             
             except Exception as e:
                 if self.verbose:
-                    print(f"✗ Erreur: {e}")
+                    print(f"Erreur: {e}")
                 continue
         
         return self.optimized_models
