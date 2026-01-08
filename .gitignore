@@ -52,7 +52,6 @@ results/
 *.log
 
 # Données locales (ne pas commit les données)
-data/
 *.csv
 *.txt
 *.dat
