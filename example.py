@@ -10,43 +10,6 @@ import os
 import tempfile
 
 
-def create_sample_dataset():
-    """
-    Crée un dataset d'exemple pour la démonstration.
-
-    Returns:
-        str: Chemin vers le fichier CSV créé
-    """
-    # Créer des données synthétiques
-    np.random.seed(42)
-    n_samples = 200
-
-    # Features
-    feature1 = np.random.randn(n_samples)
-    feature2 = np.random.randn(n_samples)
-    feature3 = np.random.choice(['A', 'B', 'C'], n_samples)
-    feature4 = np.random.uniform(0, 100, n_samples)
-
-    # Target (classification binaire)
-    target = (feature1 + feature2 + (feature4 / 50) > 0.5).astype(int)
-
-    # Créer un DataFrame
-    df = pd.DataFrame({
-        'feature1': feature1,
-        'feature2': feature2,
-        'feature3': feature3,
-        'feature4': feature4,
-        'target': target
-    })
-
-    # Sauvegarder dans un fichier temporaire
-    temp_file = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
-    df.to_csv(temp_file.name, index=False, header=False)
-    temp_file.close()
-
-    return temp_file.name
-
-
 def main():
     """
     Fonction principale de démonstration.
@@ -114,20 +77,6 @@ def main():
 
     # Réinitialiser l'état
     automl.reset()
-
-    # Utiliser avec des paramètres personnalisés
-    print("Entraînement avec paramètres personnalisés...")
-    automl.fit(
-        data_path=data_path,
-        train_size=0.6,
-        valid_size=0.2,
-        test_size=0.2,
-        handle_missing='median',
-        scale=True,
-        encode_categorical=True,
-        verbose=True
-    )
-    print()
 
     # Nettoyer
     print("=" * 70)
