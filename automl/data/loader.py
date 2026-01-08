@@ -57,7 +57,7 @@ class DataLoader:
                 # Vérifier les valeurs manquantes
                 missing_count = np.sum(pd.isna(self.X)) + np.sum(pd.isna(self.y))
                 if missing_count > 0:
-                    print(f"⚠️  Attention: {missing_count} valeurs manquantes détectées")
+                    print(f"    Attention: {missing_count} valeurs manquantes détectées")
 
                 # Détecter le type de tâche
                 self.task_type = self.detect_task_type(self.y)
@@ -90,7 +90,7 @@ class DataLoader:
         # Vérifier les valeurs manquantes
         missing_count = np.sum(pd.isna(self.X)) + np.sum(pd.isna(self.y))
         if missing_count > 0:
-            print(f"⚠️  Attention: {missing_count} valeurs manquantes détectées")
+            print(f"    Attention: {missing_count} valeurs manquantes détectées")
 
         # Détecter le type de tâche
         self.task_type = self.detect_task_type(self.y)

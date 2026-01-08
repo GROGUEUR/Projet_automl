@@ -91,7 +91,7 @@ def fit(data_path: str, **kwargs) -> bool:
 
         if verbose:
             info = _data_loader.get_info()
-            print(f"  ✓ Données chargées avec succès!")
+            print(f"    Données chargées avec succès!")
             print(f"  - Nombre d'échantillons: {info['n_samples']}")
             print(f"  - Nombre de features: {info['n_features']}")
             print(f"  - Type de tâche: {_task_type}")
@@ -102,7 +102,7 @@ def fit(data_path: str, **kwargs) -> bool:
             print()
 
     except Exception as e:
-        print(f"  ✗ Erreur lors du chargement des données: {e}")
+        print(f"    Erreur lors du chargement des données: {e}")
         raise
 
     # ========== ÉTAPE 2: Prétraitement des données ==========
@@ -123,12 +123,12 @@ def fit(data_path: str, **kwargs) -> bool:
         X_processed = _preprocessor.fit_transform(X)
 
         if verbose:
-            print(f"  ✓ Prétraitement effectué avec succès!")
+            print(f"    Prétraitement effectué avec succès!")
             print(f"  - Dimensions après traitement: {X_processed.shape}")
             print()
 
     except Exception as e:
-        print(f"  ✗ Erreur lors du prétraitement: {e}")
+        print(f"    Erreur lors du prétraitement: {e}")
         raise
 
     # ========== ÉTAPE 3: Séparation des données ==========
@@ -156,14 +156,14 @@ def fit(data_path: str, **kwargs) -> bool:
         _y_test = splits['y_test']
 
         if verbose:
-            print(f"  ✓ Données séparées avec succès!")
+            print(f"    Données séparées avec succès!")
             print(f"  - Train: {_X_train.shape[0]} échantillons")
             print(f"  - Validation: {_X_valid.shape[0]} échantillons")
             print(f"  - Test: {_X_test.shape[0]} échantillons")
             print()
 
     except Exception as e:
-        print(f"  ✗ Erreur lors de la séparation des données: {e}")
+        print(f"    Erreur lors de la séparation des données: {e}")
         raise
 
     # ========== ÉTAPE 4: Entraînement des modèles ==========
@@ -182,11 +182,11 @@ def fit(data_path: str, **kwargs) -> bool:
                 verbose=verbose
             )
             if verbose:
-                print(f"  ✓ {len(_trained_models)} modèles entraînés avec succès!")
+                print(f"    {len(_trained_models)} modèles entraînés avec succès!")
         except ImportError:
             if verbose:
-                print("  ⚠  Module 'models' non disponible (sera implémenté par Personne 2)")
-                print("  → Les données sont prêtes pour l'entraînement!")
+                print("     Module 'models' non disponible (sera implémenté par Personne 2)")
+                print("     Les données sont prêtes pour l'entraînement!")
 
         if verbose:
             print()
@@ -197,7 +197,7 @@ def fit(data_path: str, **kwargs) -> bool:
 
     except Exception as e:
         if verbose:
-            print(f"  ⚠  Avertissement lors de l'entraînement: {e}")
+            print(f"    Avertissement lors de l'entraînement: {e}")
         # Ne pas lever l'exception pour permettre aux autres modules de se connecter
 
     return True
@@ -225,12 +225,12 @@ def eval(**kwargs) -> Dict[str, Any]:
 
     # 1. Vérification : A-t-on des modèles ?
     if not _trained_models:
-        print("⚠ Aucun modèle entraîné. Appelez fit() d'abord.")
+        print(" Aucun modèle entraîné. Appelez fit() d'abord.")
         return {}
 
     # 2. Vérification : A-t-on des données de test ?
     if _X_test is None or _y_test is None:
-        print("⚠ Aucune donnée de test disponible. Appelez fit() d'abord.")
+        print(" Aucune donnée de test disponible. Appelez fit() d'abord.")
         return {}
 
     # 3. Créer l'évaluateur
@@ -245,7 +245,7 @@ def eval(**kwargs) -> Dict[str, Any]:
 
     # 4. Lancer l'évaluation sur tous les modèles
     if verbose:
-        print(f"🚀 Évaluation de {len(_trained_models)} modèle(s) sur l'ensemble de test...")
+        print(f"    Évaluation de {len(_trained_models)} modèle(s) sur l'ensemble de test...")
         print()
 
     results = _evaluator.evaluate_all(
@@ -258,7 +258,7 @@ def eval(**kwargs) -> Dict[str, Any]:
     if verbose:
         print()
         print("=" * 70)
-        print("📊 TABLEAU COMPARATIF DES PERFORMANCES")
+        print("     TABLEAU COMPARATIF DES PERFORMANCES")
         print("=" * 70)
         comparison = _evaluator.get_comparison_table('test')
         if not comparison.empty:
@@ -274,10 +274,10 @@ def eval(**kwargs) -> Dict[str, Any]:
             comparison = _evaluator.get_comparison_table('test')
             visualizer.plot_model_comparison(comparison, _task_type)
             if verbose:
-                print("✓ Visualisations générées")
+                print("     Visualisations générées")
         except Exception as e:
             if verbose:
-                print(f"⚠ Erreur lors de la visualisation : {e}")
+                print(f"    Erreur lors de la visualisation : {e}")
 
     return results
 
