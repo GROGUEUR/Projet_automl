@@ -26,7 +26,7 @@ def main():
     args = parser.parse_args()
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     
-    print(f"🚀 Lancement Optimisation : {args.search_method.upper()}")
+    print(f"Lancement Optimisation : {args.search_method.upper()}")
     
     # 1. Pipeline complet initial
     print("--- Chargement & Entraînement Initial ---")
