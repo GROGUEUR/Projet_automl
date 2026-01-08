@@ -29,10 +29,12 @@ setup(
     ],
     python_requires=">=3.8",
     install_requires=[
-        "numpy>=1.21.0",
-        "pandas>=1.3.0",
-        "scikit-learn>=1.0.0",
-        "joblib>=1.0.0",
+        "numpy>=1.24.3,<2.0.0",
+        "pandas>=2.0.3,<3.0.0",
+        "scikit-learn>=1.3.0,<2.0.0",
+        "joblib>=1.3.2,<2.0.0",
+        "matplotlib>=3.7.0,<4.0.0",
+        "seaborn>=0.12.0,<1.0.0",
     ],
     extras_require={
         "dev": [
