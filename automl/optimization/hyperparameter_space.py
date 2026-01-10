@@ -1,63 +1,62 @@
-"""
-Définition des espaces de recherche d'hyperparamètres pour chaque modèle.
-"""
-
 class HyperparameterSpace:
     """
-    Contient les espaces de recherche d'hyperparamètres pour tous les modèles.
+    Contient les espaces de recherche d'hyperparamètres optimisés.
     """
     
     # Random Forest
     RANDOM_FOREST_SPACE = {
-        'n_estimators': [50, 100, 200, 300],
-        'max_depth': [None, 10, 20, 30, 50],
+        'n_estimators': [50, 100, 200],
+        'max_depth': [10, 20, 30, None],
         'min_samples_split': [2, 5, 10],
         'min_samples_leaf': [1, 2, 4],
-        'max_features': ['sqrt', 'log2', None]
+        'max_features': ['sqrt', 'log2'] 
     }
     
     # Gradient Boosting
     GRADIENT_BOOSTING_SPACE = {
-        'n_estimators': [50, 100, 200],
-        'learning_rate': [0.01, 0.05, 0.1, 0.2],
-        'max_depth': [3, 5, 7, 10],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 2, 4],
+        'n_estimators': [50, 100, 150],
+        'learning_rate': [0.05, 0.1, 0.2],
+        'max_depth': [3, 5, 7],         
+        'min_samples_split': [2, 5],
         'subsample': [0.8, 0.9, 1.0]
     }
     
-    # Logistic Regression / Ridge
-    LINEAR_SPACE = {
-        'C': [0.001, 0.01, 0.1, 1, 10, 100],  # Pour Logistic
-        'alpha': [0.001, 0.01, 0.1, 1, 10, 100],  # Pour Ridge
-        'solver': ['lbfgs', 'saga']  # Pour Logistic
+    # Logistic Regression
+    LOGISTIC_SPACE = {
+        'C': [0.01, 0.1, 1, 10],       
+        'solver': ['lbfgs']            
+    }
+
+    # Ridge
+    RIDGE_SPACE = {
+        'alpha': [0.01, 0.1, 1, 10, 100]
     }
     
-    # SVM / SVR
+    # SVM 
     SVM_SPACE = {
-        'C': [0.1, 1, 10, 100],
-        'kernel': ['linear', 'rbf', 'poly'],
-        'gamma': ['scale', 'auto', 0.001, 0.01, 0.1]
+        'C': [0.1, 1, 10],             
+        'kernel': ['linear', 'rbf'],   
+        'gamma': ['scale', 'auto']
     }
     
     # KNN
     KNN_SPACE = {
-        'n_neighbors': [3, 5, 7, 10, 15, 20],
+        'n_neighbors': [3, 5, 7, 11],
         'weights': ['uniform', 'distance'],
-        'metric': ['euclidean', 'manhattan', 'minkowski']
+        'metric': ['euclidean', 'manhattan']
     }
     
     # Decision Tree
     DECISION_TREE_SPACE = {
-        'max_depth': [None, 5, 10, 20, 30],
-        'min_samples_split': [2, 5, 10, 20],
-        'min_samples_leaf': [1, 2, 4, 8],
-        'criterion': ['gini', 'entropy']  # Pour classification
+        'max_depth': [5, 10, 20, None],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4],
+        'criterion': ['gini', 'entropy']
     }
     
     # Naive Bayes
     NAIVE_BAYES_SPACE = {
-        'var_smoothing': [1e-9, 1e-8, 1e-7, 1e-6]
+        'var_smoothing': [1e-9, 1e-8, 1e-7]
     }
     
     @staticmethod
@@ -65,11 +64,12 @@ class HyperparameterSpace:
         """
         Retourne l'espace de recherche pour un modèle donné.
         """
+        # Mise à jour du mapping pour utiliser les nouveaux dictionnaires
         spaces = {
             'RandomForest': HyperparameterSpace.RANDOM_FOREST_SPACE,
             'GradientBoosting': HyperparameterSpace.GRADIENT_BOOSTING_SPACE,
-            'LogisticRegression': HyperparameterSpace.LINEAR_SPACE,
-            'Ridge': HyperparameterSpace.LINEAR_SPACE,
+            'LogisticRegression': HyperparameterSpace.LOGISTIC_SPACE, 
+            'Ridge': HyperparameterSpace.RIDGE_SPACE,                 
             'SVM': HyperparameterSpace.SVM_SPACE,
             'SVR': HyperparameterSpace.SVM_SPACE,
             'KNN': HyperparameterSpace.KNN_SPACE,
@@ -79,30 +79,34 @@ class HyperparameterSpace:
         
         space = spaces.get(model_name, {})
         
-        # Adapter selon le type de tâche si nécessaire
+        # Adapter selon le type de tâche
         if task_type == 'regression' and model_name == 'DecisionTree':
             space = space.copy()
             space['criterion'] = ['squared_error', 'absolute_error']
+        
+        # Gestion spécifique pour LogisticRegression solver
+        if model_name == 'LogisticRegression':
+             space = space.copy()
         
         return space
     
     @staticmethod
     def get_reduced_space(model_name: str, task_type: str = None):
         """
-        Retourne un espace réduit pour recherche rapide (3-5 valeurs par param).
+        Retourne un espace réduit pour recherche rapide.
         """
         full_space = HyperparameterSpace.get_space(model_name, task_type)
-        
-        # Réduire chaque liste à max 3 valeurs (début, milieu, fin)
         reduced_space = {}
+        
         for key, values in full_space.items():
             if isinstance(values, list):
+                # On prend max 2 valeurs pour aller très vite en mode debug/réduit
                 n = len(values)
-                if n <= 3:
+                if n <= 2:
                     reduced_space[key] = values
                 else:
-                    indices = [0, n//2, n-1]
-                    reduced_space[key] = [values[i] for i in indices]
+                    # On prend juste le premier et le dernier (extrêmes)
+                    reduced_space[key] = [values[0], values[-1]]
             else:
                 reduced_space[key] = values
         
