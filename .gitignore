@@ -54,3 +54,6 @@ results/
 # Données locales (ne pas commit les données)
 *.csv
 *.dat
+logs/
+*.out
+*.err
