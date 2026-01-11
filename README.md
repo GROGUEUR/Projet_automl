@@ -25,19 +25,12 @@ AutoML est un système complet qui automatise le processus d'apprentissage autom
 
 ## Installation
 
-### Méthode 1 : Installation en mode développement (recommandée)
-
 ```bash
 # Cloner le dépôt
 cd /path/to/Projet_automl
 
 # Installer le paquet en mode éditable
 pip install -e .
-```
-
-### Méthode 2 : Installation avec requirements.txt
-
-```bash
 pip install -r requirements.txt
 ```
 
