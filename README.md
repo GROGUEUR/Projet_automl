@@ -475,4 +475,3 @@ Le système garantit la reproductibilité via :
 - **Style:** PEP8
 - **Docstrings:** Format Google
 - **Type hints:** Obligatoires pour les fonctions publiques
-- **Tests:** pytest pour tous les modules critiques
