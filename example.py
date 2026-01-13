@@ -60,12 +60,6 @@ def main():
     results = automl.eval(verbose=True)
     print()
 
-    # Utilisation avancée avec paramètres personnalisés
-    print("=" * 70)
-    print("4. UTILISATION AVANCÉE (PARAMÈTRES PERSONNALISÉS)")
-    print("=" * 70)
-    print()
-
     # Réinitialiser l'état
     automl.reset()
 
